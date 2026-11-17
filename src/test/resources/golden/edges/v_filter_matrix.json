@@ -1,0 +1,18 @@
+{
+  "view": "v_filter_matrix",
+  "expected": [
+    {"output_column":"bill_no","source_table":"ORDERS","source_column":"O_ORDERKEY","edge_kind":"DIRECT"},
+    {"output_column":"patient_name","source_table":"CUSTOMER","source_column":"C_NAME","edge_kind":"DIRECT"},
+    {"output_column":"region_name","source_table":"REGION","source_column":"R_NAME","edge_kind":"DIRECT"},
+    {"output_column":"O_CUSTKEY","source_table":"ORDERS","source_column":"O_CUSTKEY","edge_kind":"FILTER"},
+    {"output_column":"C_CUSTKEY","source_table":"CUSTOMER","source_column":"C_CUSTKEY","edge_kind":"FILTER"},
+    {"output_column":"C_NATIONKEY","source_table":"CUSTOMER","source_column":"C_NATIONKEY","edge_kind":"FILTER"},
+    {"output_column":"N_NATIONKEY","source_table":"NATION","source_column":"N_NATIONKEY","edge_kind":"FILTER"},
+    {"output_column":"N_REGIONKEY","source_table":"NATION","source_column":"N_REGIONKEY","edge_kind":"FILTER"},
+    {"output_column":"R_REGIONKEY","source_table":"REGION","source_column":"R_REGIONKEY","edge_kind":"FILTER"},
+    {"output_column":"O_ORDERDATE","source_table":"ORDERS","source_column":"O_ORDERDATE","edge_kind":"FILTER"},
+    {"output_column":"O_ORDERSTATUS","source_table":"ORDERS","source_column":"O_ORDERSTATUS","edge_kind":"FILTER"},
+    {"output_column":"O_TOTALPRICE","source_table":"ORDERS","source_column":"O_TOTALPRICE","edge_kind":"FILTER"}
+  ],
+  "required_review_reasons": []
+}

@@ -1,0 +1,13 @@
+{
+  "view": "v_bill_fee_window",
+  "expected": [
+    {"output_column":"bill_no","source_table":"ORDERS","source_column":"O_ORDERKEY","edge_kind":"DIRECT"},
+    {"output_column":"fee_amt","source_table":"LINEITEM","source_column":"L_EXTENDEDPRICE","edge_kind":"DIRECT"},
+    {"output_column":"fee_rank","source_table":"ORDERS","source_column":"O_CUSTKEY","edge_kind":"AGGREGATE"},
+    {"output_column":"cust_fee_total","source_table":"LINEITEM","source_column":"L_EXTENDEDPRICE","edge_kind":"AGGREGATE"},
+    {"output_column":"O_CUSTKEY","source_table":"ORDERS","source_column":"O_CUSTKEY","edge_kind":"FILTER"},
+    {"output_column":"O_ORDERKEY","source_table":"ORDERS","source_column":"O_ORDERKEY","edge_kind":"FILTER"},
+    {"output_column":"L_ORDERKEY","source_table":"LINEITEM","source_column":"L_ORDERKEY","edge_kind":"FILTER"}
+  ],
+  "required_review_reasons": []
+}

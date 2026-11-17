@@ -1,0 +1,111 @@
+{
+  "说明": "人工逐条追链确定的黄金基准，共 6 条。期望受影响集合由人工在图上按口径逐跳追出，不是算法输出反推。字段串均为单点规范形式 VIEW.COLUMN。edges 给出该基准图的全部有向边，便于复跑时按同一张图重建。",
+  "口径规则": "strict 只沿 DIRECT/DERIVED/AGGREGATE 扩展；conservative 并入 FILTER；两者都只沿 DOWNSTREAM，不把上游框入。expected_fields 不含 seed 改动点本身。",
+  "traces": [
+    {
+      "id": "T1",
+      "name": "跨视图消费链与菱形依赖",
+      "scope": "strict",
+      "seed": "VA.OUT1",
+      "edges": [
+        {"from": "SRCA.C1", "to": "VA.OUT1", "kind": "DIRECT", "view": "VA"},
+        {"from": "VA.OUT1", "to": "VB.OUT1", "kind": "DIRECT", "view": "VB"},
+        {"from": "VA.OUT1", "to": "VC.OUT1", "kind": "DERIVED", "view": "VC"},
+        {"from": "VB.OUT1", "to": "VD.OUT1", "kind": "DIRECT", "view": "VD"},
+        {"from": "VC.OUT1", "to": "VD.OUT1", "kind": "AGGREGATE", "view": "VD"}
+      ],
+      "expected_fields": ["VB.OUT1", "VC.OUT1", "VD.OUT1"],
+      "expect_contains_cycle": false,
+      "expected_max_hops": 2,
+      "trace_note": "人工逐跳：改动 VA.OUT1，沿 DOWNSTREAM 一跳到 VB.OUT1 与 VC.OUT1；两条分支再汇合到 VD.OUT1，构成菱形，VD.OUT1 只计一次。SRCA.C1 是 VA 的上游取数源头，不在波及范围内。",
+      "human_review": "人工复核结论：跨视图消费链 A 到 B/C 再到 D 成立；四个视图都叫 OUT1 但属不同节点，同名未误合并；VD.OUT1 有两条入边但只算一个受影响字段；严格口径下无过滤边，集合恰好 3 个，最大跳数 2。"
+    },
+    {
+      "id": "T2",
+      "name": "过滤边影响链路（保守口径）",
+      "scope": "conservative",
+      "seed": "SRCT.STATUS",
+      "edges": [
+        {"from": "SRCT.STATUS", "to": "VA.STATUS", "kind": "DIRECT", "view": "VA"},
+        {"from": "SRCT.STATUS", "to": "VA.FEE_AMT", "kind": "FILTER", "view": "VA"},
+        {"from": "VA.FEE_AMT", "to": "VB.FEE_AMT", "kind": "DIRECT", "view": "VB"}
+      ],
+      "expected_fields": ["VA.STATUS", "VA.FEE_AMT", "VB.FEE_AMT"],
+      "expect_contains_cycle": false,
+      "expected_max_hops": 2,
+      "trace_note": "人工逐跳：改动状态列 SRCT.STATUS，一跳直取到 VA.STATUS；同一改动经 FILTER 边改变 VA.FEE_AMT 的取数口径（不改变取值），再一跳直取到 VB.FEE_AMT。保守口径把过滤边也算入，故多出 VA.FEE_AMT 与 VB.FEE_AMT。",
+      "human_review": "人工复核结论：改筛选条件列会改下游口径但不改取值，必须与直取影响分开呈现；保守口径集合恰为 3 个。若用严格口径，FILTER 边不扩展，只剩 VA.STATUS 一个，此差异由 DualModeDiff 单独输出。无上游被框入，无环。"
+    },
+    {
+      "id": "T3",
+      "name": "含环链路",
+      "scope": "strict",
+      "seed": "VA.X",
+      "edges": [
+        {"from": "VA.X", "to": "VB.X", "kind": "DIRECT", "view": "VB"},
+        {"from": "VB.X", "to": "VC.X", "kind": "DIRECT", "view": "VC"},
+        {"from": "VC.X", "to": "VA.X", "kind": "DIRECT", "view": "VA"},
+        {"from": "VC.X", "to": "VD.X", "kind": "AGGREGATE", "view": "VD"}
+      ],
+      "expected_fields": ["VB.X", "VC.X", "VD.X"],
+      "expect_contains_cycle": true,
+      "expected_max_hops": 3,
+      "trace_note": "人工逐跳：改动 VA.X，一跳到 VB.X，两跳到 VC.X；VC.X 有一条回边指回 VA.X 形成 VA->VB->VC->VA 的环，另一条出边到 VD.X。遍历登记 visited 后不再展开 VA.X，回边单独标注，可达集合仍继续走到 VD.X。",
+      "human_review": "人工复核结论：环内节点不重复计数，VA.X 作为改动点不计入结果，可达集合恰为 VB.X/VC.X/VD.X 共 3 个；回边 VC.X->VA.X 应出现在 cycleEdges，containsCycle 为真；VD.X 三跳需人工确认。图存在循环引用但遍历不崩。"
+    },
+    {
+      "id": "T4",
+      "name": "长链跳数分层",
+      "scope": "strict",
+      "seed": "VA.C",
+      "edges": [
+        {"from": "SRCL.ID", "to": "VA.C", "kind": "DIRECT", "view": "VA"},
+        {"from": "VA.C", "to": "VB.C", "kind": "DIRECT", "view": "VB"},
+        {"from": "VB.C", "to": "VC.C", "kind": "DERIVED", "view": "VC"},
+        {"from": "VC.C", "to": "VD.C", "kind": "AGGREGATE", "view": "VD"},
+        {"from": "VD.C", "to": "VE.C", "kind": "DIRECT", "view": "VE"}
+      ],
+      "expected_fields": ["VB.C", "VC.C", "VD.C", "VE.C"],
+      "expect_contains_cycle": false,
+      "expected_max_hops": 4,
+      "trace_note": "人工逐跳：改动 VA.C，沿直取/派生/聚合/直取依次到 VB.C(1 跳)、VC.C(2 跳)、VD.C(3 跳)、VE.C(4 跳)；SRCL.ID 是上游，不框入。",
+      "human_review": "人工复核结论：四个下游字段跳数依次为 1/2/3/4，最大跳数 4；VD.C 与 VE.C 跳数达到 3 及以上，按要求标记为需人工确认，不自动判定实质影响；前两跳进入归因候选。链路逐跳可还原且无环。"
+    },
+    {
+      "id": "T5",
+      "name": "同名字段不误合并",
+      "scope": "strict",
+      "seed": "VA.AMT",
+      "edges": [
+        {"from": "SRC1.AMT", "to": "VA.AMT", "kind": "DIRECT", "view": "VA"},
+        {"from": "VA.AMT", "to": "VG.AMT", "kind": "DIRECT", "view": "VG"},
+        {"from": "SRC2.AMT", "to": "VB.AMT", "kind": "DIRECT", "view": "VB"},
+        {"from": "VB.AMT", "to": "VDELTA.AMT", "kind": "DIRECT", "view": "VDELTA"}
+      ],
+      "expected_fields": ["VG.AMT"],
+      "expect_contains_cycle": false,
+      "expected_max_hops": 1,
+      "trace_note": "人工逐跳：改动 VA.AMT，只有一跳到 VG.AMT。另一条独立分支 SRC2.AMT->VB.AMT->VDELTA.AMT 与改动点没有连边，不应被波及。",
+      "human_review": "人工复核结论：VA.AMT 与 VB.AMT 列名都叫 AMT，但分属不同视图，是不同节点，未被误合并；VDELTA.AMT 所在分支不受 VA.AMT 改动影响。结果恰为 VG.AMT 一个，最大跳数 1。"
+    },
+    {
+      "id": "T6",
+      "name": "JOIN 聚合与过滤混合链路（保守口径）",
+      "scope": "conservative",
+      "seed": "ORDERS.O_ORDERSTATUS",
+      "edges": [
+        {"from": "ORDERS.O_CUSTKEY", "to": "VJ.PATIENT_ID", "kind": "DIRECT", "view": "VJ"},
+        {"from": "LINEITEM.L_PRICE", "to": "VJ.FEE_AMT", "kind": "AGGREGATE", "view": "VJ"},
+        {"from": "ORDERS.O_ORDERSTATUS", "to": "VJ.FEE_AMT", "kind": "FILTER", "view": "VJ"},
+        {"from": "VJ.PATIENT_ID", "to": "VSUM.PATIENT_ID", "kind": "DIRECT", "view": "VSUM"},
+        {"from": "VJ.FEE_AMT", "to": "VSUM.TOTAL_FEE", "kind": "AGGREGATE", "view": "VSUM"},
+        {"from": "VSUM.TOTAL_FEE", "to": "VSUM.REPORT_FLAG", "kind": "FILTER", "view": "VSUM"}
+      ],
+      "expected_fields": ["VJ.FEE_AMT", "VSUM.TOTAL_FEE", "VSUM.REPORT_FLAG"],
+      "expect_contains_cycle": false,
+      "expected_max_hops": 3,
+      "trace_note": "人工逐跳：改动筛选列 ORDERS.O_ORDERSTATUS，经 WHERE 的 FILTER 边影响 VJ.FEE_AMT(1 跳)；再经聚合到 VSUM.TOTAL_FEE(2 跳)；再经一条 FILTER 边到 VSUM.REPORT_FLAG(3 跳)。VJ.PATIENT_ID 与 VSUM.PATIENT_ID 在另一条分支上，与改动点无连边，不框入。",
+      "human_review": "人工复核结论：该链路完全由过滤边驱动，保守口径纳入 3 个字段而严格口径为空，证明两种口径确有实质区别；未把上游 O_CUSTKEY/L_PRICE 及旁支 PATIENT_ID 框入；最大跳数 3，REPORT_FLAG 需人工确认。无环。"
+    }
+  ]
+}

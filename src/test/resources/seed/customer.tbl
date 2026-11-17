@@ -1,0 +1,4 @@
+# customer.tbl | minimal deterministic seed for offline degrade | mode=offline-seed | columns: C_CUSTKEY|C_NAME|C_ADDRESS|C_NATIONKEY|C_PHONE|C_ACCTBAL|C_MKTSEGMENT|C_COMMENT
+1|Customer#000000001|SEED-ADDR-1|0|00-000-000-0001|1000.00|BUILDING|seed-row-1|
+2|Customer#000000002|SEED-ADDR-2|1|00-000-000-0002|2000.00|MACHINERY|seed-row-2|
+3|Customer#000000003|SEED-ADDR-3|2|00-000-000-0003|3000.00|FURNITURE|seed-row-3|

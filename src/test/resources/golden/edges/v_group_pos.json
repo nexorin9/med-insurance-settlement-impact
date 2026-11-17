@@ -1,0 +1,10 @@
+{
+  "view": "v_group_pos",
+  "expected": [
+    {"output_column":"priority_code","source_table":"ORDERS","source_column":"O_ORDERPRIORITY","edge_kind":"DIRECT"},
+    {"output_column":"status_code","source_table":"ORDERS","source_column":"O_ORDERSTATUS","edge_kind":"DIRECT"},
+    {"output_column":"priority_code","source_table":"ORDERS","source_column":"O_ORDERPRIORITY","edge_kind":"AGGREGATE"},
+    {"output_column":"status_code","source_table":"ORDERS","source_column":"O_ORDERSTATUS","edge_kind":"AGGREGATE"}
+  ],
+  "required_review_reasons": []
+}

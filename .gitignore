@@ -1,0 +1,53 @@
+# ---- 凭据与本地环境（绝不进版本库）----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- 构建产物 ----
+target/
+dist/
+build/
+out/
+coverage/
+.next/
+*.jar
+*.war
+
+# ---- 依赖目录 ----
+node_modules/
+venv/
+.venv/
+vendor/
+
+# ---- 运行时数据与日志 ----
+data/
+logs/
+*.log
+logs/**
+failed_events.log
+
+# ---- 缓存 ----
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+*.pyc
+*.pyo
+*.class
+.DS_Store
+
+# ---- 临时文件 ----
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*~
+
+# ---- round 元数据（不属于本项目）----
+score.json
+
+# 注意：qrcode.jpg 与 docs/screenshots/ 是发布物的一部分，**不得**排除。

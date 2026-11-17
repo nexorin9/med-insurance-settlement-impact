@@ -1,0 +1,9 @@
+{
+  "view": "v_cost_subquery",
+  "expected": [
+    {"output_column":"bill_no","source_table":"LINEITEM","source_column":"L_ORDERKEY","edge_kind":"DIRECT"},
+    {"output_column":"fee_amt","source_table":"LINEITEM","source_column":"L_EXTENDEDPRICE","edge_kind":"DIRECT"},
+    {"output_column":"discounted_amt","source_table":"LINEITEM","source_column":"L_EXTENDEDPRICE","edge_kind":"DERIVED"}
+  ],
+  "required_review_reasons": []
+}

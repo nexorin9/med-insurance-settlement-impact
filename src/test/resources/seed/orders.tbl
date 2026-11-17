@@ -1,0 +1,4 @@
+# orders.tbl | minimal deterministic seed for offline degrade | mode=offline-seed | columns: O_ORDERKEY|O_CUSTKEY|O_ORDERSTATUS|O_TOTALPRICE|O_ORDERDATE|O_ORDERPRIORITY|O_CLERK|O_SHIPPRIORITY|O_COMMENT
+1|1|O|1000.00|2026-01-01|1-URGENT|Clerk#000000001|0|seed-row-1|
+2|2|F|2000.00|2026-01-02|2-HIGH|Clerk#000000002|0|seed-row-2|
+3|3|P|3000.00|2026-01-03|3-MEDIUM|Clerk#000000003|0|seed-row-3|

@@ -1,0 +1,14 @@
+{
+  "view": "v_dept_cost_cte",
+  "expected": [
+    {"output_column":"item_id","source_table":"PART","source_column":"P_PARTKEY","edge_kind":"DIRECT"},
+    {"output_column":"unit_cost","source_table":"PARTSUPP","source_column":"PS_SUPPLYCOST","edge_kind":"DIRECT"},
+    {"output_column":"item_name","source_table":"PART","source_column":"P_NAME","edge_kind":"DIRECT"},
+    {"output_column":"item_id","source_table":"COST_BASE","source_column":"ITEM_ID","edge_kind":"DIRECT"},
+    {"output_column":"item_name","source_table":"COST_BASE","source_column":"ITEM_NAME","edge_kind":"DIRECT"},
+    {"output_column":"adj_cost","source_table":"COST_BASE","source_column":"UNIT_COST","edge_kind":"DERIVED"},
+    {"output_column":"P_PARTKEY","source_table":"PART","source_column":"P_PARTKEY","edge_kind":"FILTER"},
+    {"output_column":"PS_PARTKEY","source_table":"PARTSUPP","source_column":"PS_PARTKEY","edge_kind":"FILTER"}
+  ],
+  "required_review_reasons": []
+}

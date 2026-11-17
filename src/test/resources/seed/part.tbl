@@ -1,0 +1,4 @@
+# part.tbl | minimal deterministic seed for offline degrade | mode=offline-seed | columns: P_PARTKEY|P_NAME|P_MFGR|P_BRAND|P_TYPE|P_SIZE|P_CONTAINER|P_RETAILPRICE|P_COMMENT
+1|SEED-PART-1|MFGR#1|BRAND#1|TYPE-1|10|BOX|100.00|seed-row-1|
+2|SEED-PART-2|MFGR#2|BRAND#2|TYPE-2|20|CASE|200.00|seed-row-2|
+3|SEED-PART-3|MFGR#3|BRAND#3|TYPE-3|30|BAG|300.00|seed-row-3|

@@ -1,0 +1,9 @@
+{
+  "view": "v_fee_detail_union_bad",
+  "expected": [
+    {"output_column":"bill_no","source_table":"LINEITEM","source_column":"L_ORDERKEY","edge_kind":"DIRECT"},
+    {"output_column":"fee_amt","source_table":"LINEITEM","source_column":"L_EXTENDEDPRICE","edge_kind":"DIRECT"},
+    {"output_column":"bill_no","source_table":"ORDERS","source_column":"O_ORDERKEY","edge_kind":"DIRECT"}
+  ],
+  "required_review_reasons": ["union_branch_conflict"]
+}

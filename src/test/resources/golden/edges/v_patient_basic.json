@@ -1,0 +1,13 @@
+{
+  "view": "v_patient_basic",
+  "expected": [
+    {"output_column":"patient_id","source_table":"CUSTOMER","source_column":"C_CUSTKEY","edge_kind":"DIRECT"},
+    {"output_column":"patient_name","source_table":"CUSTOMER","source_column":"C_NAME","edge_kind":"DIRECT"},
+    {"output_column":"nation_name","source_table":"NATION","source_column":"N_NAME","edge_kind":"DIRECT"},
+    {"output_column":"nation_key_a","source_table":"CUSTOMER","source_column":"C_NATIONKEY","edge_kind":"DIRECT"},
+    {"output_column":"nation_key_b","source_table":"NATION","source_column":"N_NATIONKEY","edge_kind":"DIRECT"},
+    {"output_column":"C_NATIONKEY","source_table":"CUSTOMER","source_column":"C_NATIONKEY","edge_kind":"FILTER"},
+    {"output_column":"N_NATIONKEY","source_table":"NATION","source_column":"N_NATIONKEY","edge_kind":"FILTER"}
+  ],
+  "required_review_reasons": []
+}

@@ -1,0 +1,6 @@
+# nation.tbl | minimal deterministic seed for offline degrade | mode=offline-seed | columns: N_NATIONKEY|N_NAME|N_REGIONKEY|N_COMMENT
+0|SEED-NATION-0|0|seed-row-0|
+1|SEED-NATION-1|1|seed-row-1|
+2|SEED-NATION-2|2|seed-row-2|
+3|SEED-NATION-3|3|seed-row-3|
+4|SEED-NATION-4|4|seed-row-4|

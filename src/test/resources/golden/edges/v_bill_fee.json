@@ -1,0 +1,14 @@
+{
+  "view": "v_bill_fee",
+  "expected": [
+    {"output_column":"bill_no","source_table":"ORDERS","source_column":"O_ORDERKEY","edge_kind":"DIRECT"},
+    {"output_column":"patient_id","source_table":"CUSTOMER","source_column":"C_CUSTKEY","edge_kind":"DIRECT"},
+    {"output_column":"fee_amt","source_table":"LINEITEM","source_column":"L_EXTENDEDPRICE","edge_kind":"DIRECT"},
+    {"output_column":"tax_amt","source_table":"LINEITEM","source_column":"L_TAX","edge_kind":"DIRECT"},
+    {"output_column":"O_ORDERKEY","source_table":"ORDERS","source_column":"O_ORDERKEY","edge_kind":"FILTER"},
+    {"output_column":"L_ORDERKEY","source_table":"LINEITEM","source_column":"L_ORDERKEY","edge_kind":"FILTER"},
+    {"output_column":"O_CUSTKEY","source_table":"ORDERS","source_column":"O_CUSTKEY","edge_kind":"FILTER"},
+    {"output_column":"C_CUSTKEY","source_table":"CUSTOMER","source_column":"C_CUSTKEY","edge_kind":"FILTER"}
+  ],
+  "required_review_reasons": []
+}

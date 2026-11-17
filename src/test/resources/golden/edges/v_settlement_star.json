@@ -1,0 +1,7 @@
+{
+  "view": "v_settlement_star",
+  "expected": [
+    {"output_column":"*","source_table":"","source_column":"","edge_kind":"DIRECT"}
+  ],
+  "required_review_reasons": ["select_star"]
+}

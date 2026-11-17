@@ -1,0 +1,6 @@
+# region.tbl | minimal deterministic seed for offline degrade | mode=offline-seed | columns: R_REGIONKEY|R_NAME|R_COMMENT
+0|SEED-REGION-0|seed-row-0|
+1|SEED-REGION-1|seed-row-1|
+2|SEED-REGION-2|seed-row-2|
+3|SEED-REGION-3|seed-row-3|
+4|SEED-REGION-4|seed-row-4|

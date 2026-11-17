@@ -1,0 +1,4 @@
+# supplier.tbl | minimal deterministic seed for offline degrade | mode=offline-seed | columns: S_SUPPKEY|S_NAME|S_ADDRESS|S_NATIONKEY|S_PHONE|S_ACCTBAL|S_COMMENT
+1|Supplier#000000001|SEED-ADDR-1|0|00-000-000-0001|1000.00|seed-row-1|
+2|Supplier#000000002|SEED-ADDR-2|1|00-000-000-0002|2000.00|seed-row-2|
+3|Supplier#000000003|SEED-ADDR-3|2|00-000-000-0003|3000.00|seed-row-3|

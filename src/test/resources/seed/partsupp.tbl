@@ -1,0 +1,4 @@
+# partsupp.tbl | minimal deterministic seed for offline degrade | mode=offline-seed | columns: PS_PARTKEY|PS_SUPPKEY|PS_AVAILQTY|PS_SUPPLYCOST|PS_COMMENT
+1|1|100|10.00|seed-row-1|
+2|2|200|20.00|seed-row-2|
+3|3|300|30.00|seed-row-3|
